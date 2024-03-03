@@ -28,3 +28,15 @@ DATA = {
 #     'ингредиент2': количество2,
 #   }
 # }
+
+
+def get_a_recipe(request, recipe):
+    servings = int(request.GET.get('servings', 1))
+
+    dish = {}
+    if recipe in DATA:
+        for ingredient, amount in DATA[recipe].items():
+            dish[ingredient] = round(amount * servings, 1)
+
+    context = {'recipe': dish}
+    return render(request, 'calculator/index.html', context)
